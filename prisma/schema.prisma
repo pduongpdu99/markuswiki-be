@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Categories {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  created_by Int?
+  updated_by Int?
+
+  slug String
+  icon String
+
+  @@map("categories")
+}
+
+model Tags {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  created_by Int?
+  updated_by Int?
+
+  slug String
+
+  @@map("tags")
+}
+
+model Article {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  created_by Int?
+  updated_by Int?
+
+  slug              String
+  title             String
+  title_vi          String
+  description       String
+  description_vi    String
+  content           String
+  content_vi        String
+  categoryId        Int
+  tags              Json
+  readingTime       Float
+  author            String
+  toc               Json
+  relatedArticleIds Json
+
+  @@map("article")
+}
