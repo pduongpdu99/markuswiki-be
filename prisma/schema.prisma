@@ -36,7 +36,11 @@ model Tags {
   created_by Int?
   updated_by Int?
 
-  slug String
+  slug        String
+  icon        String
+  title       String
+  description String
+  code        String @unique
 
   @@map("tags")
 }
@@ -48,19 +52,19 @@ model Article {
   created_by Int?
   updated_by Int?
 
-  slug              String
-  title             String
-  title_vi          String
-  description       String
-  description_vi    String
-  content           String
-  content_vi        String
-  categoryId        Int
-  tags              Json
-  readingTime       Float
-  author            String
-  toc               Json
-  relatedArticleIds Json
+  slug            String
+  title           String
+  title_vi        String
+  description     String
+  description_vi  String
+  content         String
+  content_vi      String
+  category_id     Int
+  tags            Json
+  readingTime     Float
+  author          String
+  toc             Json
+  related_article Json
 
   @@map("article")
 }
