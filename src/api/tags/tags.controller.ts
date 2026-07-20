@@ -24,6 +24,7 @@ export class TagsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
+    updateTagDto.updated_at = new Date().toISOString()
     return this.tagsService.update(+id, updateTagDto);
   }
 

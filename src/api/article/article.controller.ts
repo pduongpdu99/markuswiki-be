@@ -5,7 +5,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Controller('article')
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) { }
 
   @Post()
   create(@Body() createArticleDto: CreateArticleDto) {
@@ -24,6 +24,7 @@ export class ArticleController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
+    updateArticleDto.updated_at = new Date().toISOString()
     return this.articleService.update(+id, updateArticleDto);
   }
 
