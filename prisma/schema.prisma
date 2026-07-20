@@ -36,11 +36,8 @@ model Tags {
   created_by Int?
   updated_by Int?
 
-  slug        String
-  icon        String
-  title       String
-  description String
-  code        String @unique
+  slug String
+  code String @unique
 
   @@map("tags")
 }
