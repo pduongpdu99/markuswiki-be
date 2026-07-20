@@ -1,6 +1,8 @@
 import { RequestMethod } from "@nestjs/common";
 
-export const ROUTE_EXCLUDE = [
+export const DEVELOPMENT_ROUTE_EXCLUDE = []
+
+export const PRODUCTION_ROUTE_EXCLUDE = [
     {
         path: '/categories',
         method: RequestMethod.POST,
