@@ -24,6 +24,9 @@
       "@providers/*": [
         "./src/providers/*"
       ],
+      "@prisma/*": [
+        "./generated/*"
+      ],
       "@controller/*": [
         "./src/article/*.controller[.ts|.js]",
         "./src/categories/*.controller[.ts|.js]",

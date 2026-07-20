@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '../../generated/prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import { PrismaClient } from '@prisma/prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -14,6 +14,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
             password: process.env.DATABASE_PASSWORD,
             database: process.env.DATABASE_NAME,
             connectionLimit: 5,
+            debug: false,
             logger: {
                 error: (err) => console.error('Driver Error:', err),
                 warning: (warn) => console.warn('Driver Warn:', warn),

@@ -8,7 +8,7 @@ import { PrismaService } from '@providers/prisma.service';
 export class CategoriesService {
   constructor(private prisma: PrismaService) { }
   create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    return this.prisma.categories.create({ data: createCategoryDto })
   }
 
   findAll() {
@@ -16,11 +16,16 @@ export class CategoriesService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    return this.prisma.categories.findUnique({
+      where: { id }
+    });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+    return this.prisma.categories.update({
+      where: { id },
+      data: updateCategoryDto
+    })
   }
 
   remove(id: number) {
