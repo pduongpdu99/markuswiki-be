@@ -8,18 +8,6 @@ export class CreateTagDto {
 
     @IsString()
     @IsNotEmpty()
-    title: string = ""
-
-    @IsString()
-    @IsNotEmpty()
-    description: string = ""
-
-    @IsString()
-    @IsNotEmpty()
-    icon: string = ""
-
-    @IsString()
-    @IsNotEmpty()
     slug: string = ""
 
     @IsString()
