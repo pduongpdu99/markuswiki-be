@@ -5,37 +5,53 @@ import { PrismaService } from '@providers/prisma.service';
 
 @Injectable()
 export class TagsService {
-  constructor(private prismaService: PrismaService) { }
+  constructor(private prisma: PrismaService) { }
   create(createTagDto: CreateTagDto) {
-    return this.prismaService.tags.create({
+    return this.prisma.tags.create({
       data: createTagDto
     })
   }
 
   findAll() {
-    return this.prismaService.tags.findMany({
+    return this.prisma.tags.findMany({
       select: {
         id: true,
         slug: true,
         code: true
       }
-    })
+    }).then(async tags => {
+      const counts = await Promise.all(
+        tags.map((tag) =>
+          this.prisma.article.count({
+            where: {
+              tags: {
+                array_contains: [tag],
+              },
+            },
+          }),
+        ),
+      );
+      return tags.map((cate, index) => {
+        cate['article_count'] = counts[index]
+        return cate;
+      })
+    });
   }
 
   findOne(id: number) {
-    return this.prismaService.tags.findFirstOrThrow({
+    return this.prisma.tags.findFirstOrThrow({
       where: { id }
     })
   }
 
   update(id: number, updateTagDto: UpdateTagDto) {
-    return this.prismaService.tags.update({
+    return this.prisma.tags.update({
       where: { id },
       data: updateTagDto
     })
   }
 
   remove(id: number) {
-    return this.prismaService.tags.delete({ where: { id } })
+    return this.prisma.tags.delete({ where: { id } })
   }
 }

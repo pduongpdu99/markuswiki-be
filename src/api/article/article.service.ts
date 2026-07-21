@@ -33,6 +33,14 @@ export class ArticleService {
     if (isAll) {
       return this.prisma.article.findMany({
         where,
+        include: {
+          category: {
+            select: {
+              code: true,
+              id: true,
+            }
+          }
+        },
         orderBy: {
           created_at: 'desc',
         },
@@ -45,6 +53,14 @@ export class ArticleService {
       this.prisma.article.findMany({
         where,
         skip,
+        include: {
+          category: {
+            select: {
+              code: true,
+              id: true,
+            }
+          }
+        },
         take: limit,
         orderBy: {
           created_at: 'desc',
@@ -57,7 +73,7 @@ export class ArticleService {
     ]);
 
     return {
-      data,
+      items: data,
       meta: {
         total,
         page,

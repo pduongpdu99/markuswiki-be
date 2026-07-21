@@ -20,11 +20,14 @@ model Categories {
   created_by Int?
   updated_by Int?
 
-  slug        String
-  icon        String
-  title       String
-  description String
-  code        String @unique
+  slug           String
+  icon           String
+  title          String
+  title_vi       String?
+  description    String
+  description_vi String?
+  code           String    @unique
+  articles       Article[]
 
   @@map("categories")
 }
@@ -64,6 +67,8 @@ model Article {
   related_article Json
   thumbnail       String @default("") @db.VarChar(1024)
   references      Json?
+
+  category Categories @relation(fields: [category_id], references: [id])
 
   @@map("article")
 }

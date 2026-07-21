@@ -21,6 +21,12 @@ export class CategoriesService {
         slug: true,
         title: true,
       }
+    }).then(async categories => {
+      const counts = await Promise.all(categories.map(cate => this.prisma.article.count({ where: { category_id: cate.id } })))
+      return categories.map((cate, index) => {
+        cate['article_count'] = counts[index]
+        return cate;
+      })
     });
   }
 
