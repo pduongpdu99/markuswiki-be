@@ -25,10 +25,13 @@ export class CreateArticleDto {
     content_vi: string = ""
 
     @IsString()
-    code: string = ""
+    slug: string = ""
 
     @IsString()
-    slug: string = ""
+    author: string = ""
+
+    @IsString()
+    thumbnail: string = ""
 
     @IsInt()
     category_id: number = 0
@@ -43,5 +46,5 @@ export class CreateArticleDto {
     toc: Record<string, string>[] = []
 
     @IsJSON()
-    relatedArticles: Record<string, string>[] = [] // list of slug
+    related_article: Record<string, string>[] = [] // list of slug
 }

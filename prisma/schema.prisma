@@ -52,16 +52,18 @@ model Article {
   slug            String
   title           String
   title_vi        String
-  description     String
-  description_vi  String
-  content         String
-  content_vi      String
+  description     String @db.VarChar(500)
+  description_vi  String @db.VarChar(500)
+  content         String @db.Text
+  content_vi      String @db.Text
   category_id     Int
   tags            Json
   readingTime     Float
   author          String
   toc             Json
   related_article Json
+  thumbnail       String @default("") @db.VarChar(1024)
+  references      Json?
 
   @@map("article")
 }

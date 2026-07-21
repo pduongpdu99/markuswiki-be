@@ -12,7 +12,16 @@ export class CategoriesService {
   }
 
   findAll() {
-    return this.prisma.categories.findMany();
+    return this.prisma.categories.findMany({
+      select: {
+        id: true,
+        code: true,
+        description: true,
+        icon: true,
+        slug: true,
+        title: true,
+      }
+    });
   }
 
   findOne(id: number) {
@@ -29,6 +38,8 @@ export class CategoriesService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} category`;
+    return this.prisma.categories.delete({
+      where: { id }
+    })
   }
 }

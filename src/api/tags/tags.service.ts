@@ -13,7 +13,13 @@ export class TagsService {
   }
 
   findAll() {
-    return this.prismaService.tags.findMany()
+    return this.prismaService.tags.findMany({
+      select: {
+        id: true,
+        slug: true,
+        code: true
+      }
+    })
   }
 
   findOne(id: number) {
