@@ -3,8 +3,9 @@ import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { PrismaService } from '@providers/prisma.service';
 import { PaginationParams } from '../../common/interfaces/request';
-import { Prisma } from '@prisma/prisma/client';
 import { articleCountForTags } from '../../common/sql_statements/tags';
+
+interface I { id: number; article_count: bigint, articles: Record<string, any>[] };
 
 @Injectable()
 export class TagsService {
@@ -32,7 +33,7 @@ export class TagsService {
         },
       }).then(async tags => {
         const tags_article_count = (
-          await this.prisma.$queryRaw<{ id: number; article_count: bigint }[]>(articleCountForTags)
+          await this.prisma.$queryRaw<I[]>(articleCountForTags)
         ).map(item => ({
           ...item,
           article_count: Number(item.article_count),
@@ -62,20 +63,23 @@ export class TagsService {
         },
       }).then(async tags => {
         const tags_article_count = (
-          await this.prisma.$queryRaw<{ id: number; article_count: bigint }[]>(articleCountForTags)
+          await this.prisma.$queryRaw<I[]>(articleCountForTags)
         ).map(item => ({
           ...item,
           article_count: Number(item.article_count),
         }))
 
         // convert refer 
-        const refer: Record<number, number> = {}
+        const referCount: Record<number, number> = {}
+        const referArticles: Record<number, Record<string, any>> = {}
         tags_article_count.forEach((item) => {
-          refer[item.id] = item.article_count
+          referCount[item.id] = item.article_count
+          referArticles[item.id] = item.articles
         })
 
         return tags.map((cate) => {
-          cate['article_count'] = refer[cate.id]
+          cate['article_count'] = referCount[cate.id]
+          cate['articles'] = referArticles[cate.id]
           return cate;
         })
       }),
