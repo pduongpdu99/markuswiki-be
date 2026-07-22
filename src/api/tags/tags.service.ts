@@ -3,6 +3,8 @@ import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { PrismaService } from '@providers/prisma.service';
 import { PaginationParams } from '../../common/interfaces/request';
+import { Prisma } from '@prisma/prisma/client';
+import { articleCountForTags } from '../../common/sql_statements/tags';
 
 @Injectable()
 export class TagsService {
@@ -29,19 +31,21 @@ export class TagsService {
           created_at: 'desc',
         },
       }).then(async tags => {
-        const counts = await Promise.all(
-          tags.map((tag) =>
-            this.prisma.article.count({
-              where: {
-                tags: {
-                  array_contains: [tag],
-                },
-              },
-            }),
-          ),
-        );
-        return tags.map((cate, index) => {
-          cate['article_count'] = counts[index]
+        const tags_article_count = (
+          await this.prisma.$queryRaw<{ id: number; article_count: bigint }[]>(articleCountForTags)
+        ).map(item => ({
+          ...item,
+          article_count: Number(item.article_count),
+        }))
+
+        // convert refer 
+        const refer: Record<number, number> = {}
+        tags_article_count.forEach((item) => {
+          refer[item.id] = item.article_count
+        })
+
+        return tags.map((cate) => {
+          cate['article_count'] = refer[cate.id]
           return cate;
         })
       });
@@ -57,19 +61,21 @@ export class TagsService {
           created_at: 'desc',
         },
       }).then(async tags => {
-        const counts = await Promise.all(
-          tags.map((tag) =>
-            this.prisma.article.count({
-              where: {
-                tags: {
-                  array_contains: [tag],
-                },
-              },
-            }),
-          ),
-        );
-        return tags.map((cate, index) => {
-          cate['article_count'] = counts[index]
+        const tags_article_count = (
+          await this.prisma.$queryRaw<{ id: number; article_count: bigint }[]>(articleCountForTags)
+        ).map(item => ({
+          ...item,
+          article_count: Number(item.article_count),
+        }))
+
+        // convert refer 
+        const refer: Record<number, number> = {}
+        tags_article_count.forEach((item) => {
+          refer[item.id] = item.article_count
+        })
+
+        return tags.map((cate) => {
+          cate['article_count'] = refer[cate.id]
           return cate;
         })
       }),
