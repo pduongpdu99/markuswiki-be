@@ -17,9 +17,9 @@ export class ArticleController {
     return this.articleService.findAll(query);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articleService.findOne(+id);
+  @Get(':slug')
+  findAritcleBySlug(@Param('slug') slug: string) {
+    return this.articleService.findArticleBySlug(slug);
   }
 
   @Patch(':id')

@@ -89,6 +89,12 @@ export class ArticleService {
     });
   }
 
+  findArticleBySlug(slug: string) {
+    return this.prisma.article.findUnique({
+      where: { slug }
+    });
+  }
+
   update(id: number, dto: UpdateArticleDto) {
     return this.prisma.article.update({
       where: { id },

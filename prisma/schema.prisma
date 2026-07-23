@@ -52,7 +52,7 @@ model Article {
   created_by Int?
   updated_by Int?
 
-  slug            String
+  slug            String @unique
   title           String
   title_vi        String
   description     String @db.VarChar(500)
