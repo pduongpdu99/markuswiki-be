@@ -40,13 +40,16 @@ export class TagsService {
         }))
 
         // convert refer 
-        const refer: Record<number, number> = {}
+        const referCount: Record<number, number> = {}
+        const referArticles: Record<number, Record<string, any>> = {}
         tags_article_count.forEach((item) => {
-          refer[item.id] = item.article_count
+          referCount[item.id] = item.article_count
+          referArticles[item.id] = item.articles
         })
 
         return tags.map((cate) => {
-          cate['article_count'] = refer[cate.id]
+          cate['article_count'] = referCount[cate.id]
+          cate['articles'] = referArticles[cate.id]
           return cate;
         })
       });

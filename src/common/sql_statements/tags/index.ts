@@ -14,6 +14,7 @@ SELECT
                         'title_vi', article.title_vi,
                         'description', article.description,
                         'description_vi', article.description_vi,
+                        'tags', article.tags,
                         -- 'content', article.content,
                         -- 'content_vi', article.content_vi,
                         'slug', article.slug
