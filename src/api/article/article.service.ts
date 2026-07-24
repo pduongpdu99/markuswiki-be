@@ -118,7 +118,15 @@ export class ArticleService {
 
   findArticleBySlug(slug: string) {
     return this.prisma.article.findUnique({
-      where: { slug }
+      where: { slug },
+      include: {
+        category: {
+          select: {
+            code: true,
+            id: true,
+          }
+        }
+      }
     });
   }
 
