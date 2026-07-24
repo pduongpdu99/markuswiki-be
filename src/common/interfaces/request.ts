@@ -1,7 +1,8 @@
 export interface PaginationParams {
     page?: number;
     limit?: number;
-    all?: string
+    all?: string;
+    q?: string
 }
 
 export interface ArticlePaginationParams {
@@ -9,4 +10,5 @@ export interface ArticlePaginationParams {
     limit?: string;
     all?: string;
     tags?: string;
+    q?: string
 }

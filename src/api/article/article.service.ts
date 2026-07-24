@@ -26,9 +26,36 @@ export class ArticleService {
       .map((tag) => tag.trim())
       .filter(Boolean);
 
-    const where = tags?.length
+    const q = query.q;
+
+    let where: any = tags?.length
       ? { tags: { array_contains: tags, }, }
       : undefined;
+
+    if (q) {
+      if (!where) where = {}
+      where.OR = [
+        {
+          category: {
+            title: { contains: q },
+            title_vi: { contains: q },
+            description: { contains: q },
+            description_vi: { contains: q },
+          },
+        },
+        {
+          tags: {
+            array_contains: q
+          }
+        },
+        {
+          title: { contains: q },
+          title_vi: { contains: q },
+          description: { contains: q },
+          description_vi: { contains: q },
+        }
+      ]
+    }
 
     if (isAll) {
       return this.prisma.article.findMany({
